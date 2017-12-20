@@ -109,7 +109,7 @@ CREATE TABLE `TBCourseHomework`(
 PRIMARY KEY (`ID`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `TBCourseHomework`; -- --课程作业表
+DROP TABLE IF EXISTS `TBCourseHomeworkMap`; -- --课程作业表
 CREATE TABLE `TBCourseHomework`(
 `ID` INT(11) NOT NULL AUTO_INCREMEN,
 `CourseID` INT(11) NOT NULL COMMENT '所属课程id',
