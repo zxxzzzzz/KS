@@ -1,5 +1,4 @@
 
-DROP DATABASE IF  EXISTS `KS`;
 CREATE DATABASE  `KS`
 CHARACTER SET 'utf8'
 COLLATE 'utf8_general_ci';
@@ -37,7 +36,7 @@ PRIMARY KEY (`ID`)
 
 DROP TABLE IF EXISTS `TBCourseMap`; -- ---课程表
 CREATE TABLE `TBCourseMap`(
-`ID` INT(11) NOT NULL AUTO_INCREMEN,
+`ID` INT(11) NOT NULL AUTO_INCREMENT,
 `CourseID` INT(11) NOT NULL COMMENT'课程名称',
 `UserID` INT(11)  NOT NULL COMMENT '选这课的人的编号',
 `CourseScore` INT(11)  NOT NULL COMMENT '该学生对该课的评分',
@@ -50,7 +49,7 @@ PRIMARY KEY (`ID`)
 
 DROP TABLE IF EXISTS `TBCourseData`; -- --学习资料
 CREATE TABLE `TBCourseData`(
-`ID` INT(11) NOT NULL AUTO_INCREMEN,
+`ID` INT(11) NOT NULL AUTO_INCREMENT,
 `CourseID` VARCHAR(255) NOT NULL COMMENT'所属课程名称',
 `Name` VARCHAR(255) NOT NULL COMMENT'资料名称',
 `Src` INT(11)  NOT NULL COMMENT '资料地址',
@@ -59,7 +58,7 @@ PRIMARY KEY (`ID`)
 
 DROP TABLE IF EXISTS `TBCourseComment`; -- --课程评论
 CREATE TABLE `TBCourseComment`(
-`ID` INT(11) NOT NULL AUTO_INCREMEN,
+`ID` INT(11) NOT NULL AUTO_INCREMENT,
 `CourseID` INT(11) NOT NULL COMMENT'所属课程名称',
 `UserID` INT(11) NOT NULL COMMENT'评论的人的id',
 `Detail` INT(11)  NOT NULL COMMENT '评论详情', -- -- 诸如 "这课很烂"
@@ -69,7 +68,7 @@ PRIMARY KEY (`ID`)
 
 DROP TABLE IF EXISTS `TBCourseTopic`; -- --课程题库
 CREATE TABLE `TBCourseTopic`(
-`ID` INT(11) NOT NULL AUTO_INCREMEN,
+`ID` INT(11) NOT NULL AUTO_INCREMENT,
 `CourseID` INT(11) NOT NULL COMMENT '所属课程id',
 `Tag` VARCHAR(11) NOT NULL COMMENT '题目标签，"选择题/填空题"',
 `Detail` VARCHAR(255)  NOT NULL COMMENT '题目详情', -- --诸如 "天上七个猴，地上一个猴，问几猴"
@@ -79,7 +78,7 @@ PRIMARY KEY (`ID`)
 
 DROP TABLE IF EXISTS `TBCourseTest`; -- --课程试卷
 CREATE TABLE `TBCourseTest`(
-`ID` INT(11) NOT NULL AUTO_INCREMEN,
+`ID` INT(11) NOT NULL AUTO_INCREMENT,
 `CourseID` INT(11) NOT NULL COMMENT '所属课程id',
 `Detail` VARCHAR(255)  NOT NULL COMMENT '试卷详情', -- --TBCourseTopic的id集，诸如 1001,1009,1887',
 `BeginTime` DATETIME NOT NULL COMMENT '该试卷开始时间', -- --类似2017-12-19 9:9:9
@@ -90,7 +89,7 @@ PRIMARY KEY (`ID`)
 
 DROP TABLE IF EXISTS `TBCourseTestMap`; -- --课程试卷表
 CREATE TABLE `TBCourseTestMap`(
-`ID` INT(11) NOT NULL AUTO_INCREMEN,
+`ID` INT(11) NOT NULL AUTO_INCREMENT,
 `CourseID` INT(11) NOT NULL COMMENT '所属课程id',
 `TestID` INT(11)  NOT NULL COMMENT '所属试卷id', 
 `UserID` INT(11)  NOT NULL COMMENT '所属用户id',
@@ -102,7 +101,7 @@ PRIMARY KEY (`ID`)
 
 DROP TABLE IF EXISTS `TBCourseHomework`; -- --课程作业
 CREATE TABLE `TBCourseHomework`(
-`ID` INT(11) NOT NULL AUTO_INCREMEN,
+`ID` INT(11) NOT NULL AUTO_INCREMENT,
 `CourseID` INT(11) NOT NULL COMMENT '所属课程id',
 `Name` VARCHAR(255)  NOT NULL COMMENT '作业名称',
 `Detail` VARCHAR(511)  NOT NULL COMMENT '作业详情', -- -- 诸如 "天上七个猴，地上一个猴，问几猴"
@@ -110,8 +109,8 @@ PRIMARY KEY (`ID`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `TBCourseHomeworkMap`; -- --课程作业表
-CREATE TABLE `TBCourseHomework`(
-`ID` INT(11) NOT NULL AUTO_INCREMEN,
+CREATE TABLE `TBCourseHomeworkMap`(
+`ID` INT(11) NOT NULL AUTO_INCREMENT,
 `CourseID` INT(11) NOT NULL COMMENT '所属课程id',
 `HomeworkID` INT(11)  NOT NULL COMMENT '作业id', -- -- 诸如 "天上七个猴，地上一个猴，问几猴"
 `UserID` INT(11)  NOT NULL COMMENT '学生id',
@@ -122,8 +121,8 @@ PRIMARY KEY (`ID`)
 
 -- -------------------------------消息模块
 DROP TABLE IF EXISTS `TBMessage`; -- --消息表
-CREATE TABLE `TBCourseHomework`(
-`ID` INT(11) NOT NULL AUTO_INCREMEN,
+CREATE TABLE `TBMessage`(
+`ID` INT(11) NOT NULL AUTO_INCREMENT,
 `SendUserID` INT(11) NOT NULL COMMENT '发送用户id',
 `ReceiveUserID` INT(11)  NOT NULL COMMENT '接受用户id', 
 `Detail` VARCHAR(255)  NOT NULL COMMENT '消息内容', -- -- 诸如"你吃了么"
