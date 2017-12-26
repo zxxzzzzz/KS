@@ -10,7 +10,7 @@ class Login extends Controller{
 	public function doLogin(Request $request){
 		$data = $request->post()['data'];
 		$count = Db::table('tbuser')
-        ->where([
+                ->where([
 		    'Name' => ['=',$data['Name']],
 			'Password' => ['=', $data['Password']]
 		])->count();
@@ -18,8 +18,8 @@ class Login extends Controller{
 			return json(['state'=>'ok','jump'=>'http://localhost//tp5/public/index/login/login']);
 		}
 		else{
-			$count = Db::table('tbuser')
-            ->where([ //仅用户存在
+		    $count = Db::table('tbuser')
+                    ->where([ //仅用户存在
 		        'Name' => ['=',$data['Name']] 
 		    ])->count();
 			if($count == 1){
