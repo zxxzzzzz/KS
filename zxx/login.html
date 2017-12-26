@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>登录界面</title>
+		<link rel="icon" href="/fav.ico" type="image/png" >
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+		<script src="/tp5/public/static/js/ajax.js"></script>
+    </head>
+    <body>
+        <div id="app">
+		    <div>用户名</div>
+		    <input  v-model="name" type="text" placeholder="edit me">
+			<div>密码</div>
+			<input v-model="password" type="text" type="text" placeholder="edit me">
+			<button v-on:click="login">Greet</button>
+		</div>
+        
+     
+    </body>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+			password:'',
+			name:'',
+            },  
+			methods:{
+				login:function(){
+					doAjax('/tp5/public/index/login/dologin',
+						'post',
+						{"data":{"Name":this.name,"Password":this.password}},
+						function(data){
+							if(data['state'] == 'error'){
+								alert(data['message'])
+								if(data['message'] == 'wrong password'){
+									app.password = ''
+								}
+								else{
+									app.name = ''
+									app.password = ''
+								}
+							}
+							else{
+								self.location = data['jump']; 
+							}
+						}
+					)
+				}
+			},
+        })
+    </script>
+</html>
