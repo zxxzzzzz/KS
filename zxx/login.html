@@ -34,11 +34,11 @@
 							if(data['state'] == 'error'){
 								alert(data['message'])
 								if(data['message'] == 'wrong password'){
-									app.password = ''
+									app.password = '' //清空密码input
 								}
 								else{
-									app.name = ''
-									app.password = ''
+									app.name = ''      //清空名字input
+									app.password = ''  //清空密码input
 								}
 							}
 							else{
