@@ -34,6 +34,6 @@ class Student extends Controller{
 			$fuckvar['UserID'] = $data['UserID'];
 			array_push($courseNames,$fuckvar);
 		}
-		return json($courseNames);
+		return  json($courseNames);
 	}
 }
