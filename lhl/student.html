@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>学生界面</title>
+		<link rel="icon" href="/fav.ico" type="image/png" >
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+		<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+		<script src="/tp5/public/static/js/ajax.js"></script>
+		<link href="http://cdn.amazeui.org/amazeui/2.7.2/css/amazeui.min.css" rel="stylesheet">
+		<script src="http://cdn.amazeui.org/amazeui/2.7.2/js/amazeui.min.js"></script>
+		
+    </head>
+    <body class="am-g">
+		<br>
+		<br>
+		<br>
+        <div class="am-u-sm-4">&nbsp</div>
+        <div class="am-u-sm-4">
+            <div class="am-panel am-panel-default" >
+                <div class="am-panel-bd" id="app"><li @click="update()" v-for="elem in messages">来自用户：{{elem.SendUserID}}；内容:{{elem.Detail}}</li></div>
+            </div>
+            <div class="am-panel am-panel-default" >
+                <div class="am-panel-bd" id="app2"><div @click="update()" v-for="elem in courses"><a :href="elem.url">课程：{{elem.Name}};教师：{{elem.Teacher}}</a><br></div></div>
+            </div>
+            <div class="am-panel am-panel-default" >
+                <div class="am-panel-bd"><a href="/tp5/public/index/search/search">点击去搜索</a></div>
+            </div>
+        </div>
+		
+       
+    </body>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                messages:[{'Detail':'点击显示message'}],
+            },  
+			methods:{
+				update:function(){
+                    doAjax('/tp5/public/index/student/getMessage','post',
+                        {'data':{'UserID':getUrlParamsMap('userid')}},
+                        function(data){
+                            app.messages = data
+                        }
+                    )
+                }
+			},
+        })
+        var app2 = new Vue({
+            el: '#app2',
+            data: {
+                courses:[{'Name':'点击','url':'#'}],
+            },  
+			methods:{
+				update:function(){
+                    doAjax('/tp5/public/index/student/getCourse','post',
+                        {'data':{'UserID':getUrlParamsMap('userid')}},
+                        function(data){
+                            app2.courses = data
+                            app2.courses.forEach(function(value){
+                                value['url'] = '/tp5/public/index/course/checkedcourse?userid='+value.UserID+'&courseid='+value.CourseID
+                            })
+                            console.log()
+                        }
+                    )
+                }
+			},
+        })
+    </script>
+</html>
