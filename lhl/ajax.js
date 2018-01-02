@@ -102,4 +102,10 @@ function getUrlParamsMap(key = ''){
 		return paramsMap[key]
 	}
 }
-
+/**
+ * return str '2017-12-12 02:02:02'
+ */
+function getNow(){
+	var mydate = new Date()
+	return mydate.getFullYear() +'-'+ (mydate.getMonth()+1) +'-'+ mydate.getDay() +' '+mydate.getHours()+':'+mydate.getMinutes()+':'+mydate.getSeconds()
+}
