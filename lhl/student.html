@@ -18,13 +18,27 @@
         <div class="am-u-sm-4">&nbsp</div>
         <div class="am-u-sm-4">
             <div class="am-panel am-panel-default" >
-                <div class="am-panel-bd" id="app"><li @click="update()" v-for="elem in messages">来自用户：{{elem.SendUserID}}；内容:{{elem.Detail}}</li></div>
+                <div class="am-panel-bd" id="app"><li @click="update()" v-for="elem in messages">来自用户：{{elem.Name}}；内容:{{elem.Detail}}</li></div>
             </div>
             <div class="am-panel am-panel-default" >
                 <div class="am-panel-bd" id="app2"><div @click="update()" v-for="elem in courses"><a :href="elem.url">课程：{{elem.Name}};教师：{{elem.Teacher}}</a><br></div></div>
             </div>
             <div class="am-panel am-panel-default" >
                 <div class="am-panel-bd"><a href="/tp5/public/index/search/search">点击去搜索</a></div>
+            </div>
+            <div class="am-panel am-panel-default">
+                
+                <div class="am-dropdown" data-am-dropdown id="app3">
+                    <button class="am-btn am-btn-primary am-dropdown-toggle" @click="getUser()" data-am-dropdown-toggle>{{title}}<span class="am-icon-caret-down"></span></button>
+                    <ul class="am-dropdown-content">
+                      <li v-for="elem in users"><button type="button" @click="setR(elem.ID,elem.Name)" :myid="elem.ID" class="am-btn am-btn-default"> {{elem.Name}}</button></li>
+                    </ul>
+                    <input  v-model="message" type="text" placeholder="message">
+                    <button type="button" @click="send()" class="am-btn am-btn-default am-radius">发送</button>
+                </div>
+
+                
+
             </div>
         </div>
 		
@@ -67,5 +81,40 @@
                 }
 			},
         })
+
+
+        var app3 = new Vue({
+            el: '#app3',
+            data: {
+                users:[],
+                title:'接收用户',
+                id:'',
+                message:''
+            },  
+			methods:{
+				getUser:function(){
+                    var id = getUrlParamsMap('userid')
+                    doAjax('/tp5/public/index/student/getUser','post',{'data':{'UserID':id}},
+                        function(data){
+                            app3.users = data
+                        }
+                    )
+                },
+                setR:function(id,name){
+                    app3.title = name
+                    app3.id = id
+                },
+                send:function(){
+                    doAjax('/tp5/public/index/student/sendMessage','post',
+                    {data:{SendUserID:getUrlParamsMap('userid'),ReceiveUserID:app3.id,Detail:app3.message,Time:getNow()}},
+                        function(data){
+                            alert('发送成功')
+                        }
+                    )
+                    
+                }
+			},
+        })
+
     </script>
 </html>
