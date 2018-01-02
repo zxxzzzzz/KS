@@ -1,12 +1,12 @@
 /*
 *
 *  date:2017/12/26
-*
+*  
 *  Content-Type:application/json
-*
+*  get not suppport 不支持get请求
 *  param:
 *      url: url
-*      method: get/post/delete/put    get not suppport array data like {data:{a:xxxx}}
+*      method: get/post/delete/put    
 *      data: {a:"bb",c:"dd"}
 *  return: 
 *      json str
