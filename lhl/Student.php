@@ -13,7 +13,36 @@ class Student extends Controller{
                 ->where([
 		    'ReceiveUserID' => ['=',$data['UserID']],
 		])->select();
+		for ($i=0; $i < count($dbdata); $i++) { 
+			$elem = $dbdata[$i];
+			$fuckvar = Db::table('tbuser')
+			->where([
+				'ID' => ['=',$elem['SendUserID']],
+			])->select();
+			$dbdata[$i]['Name'] = $fuckvar[0]['Name'];
+		}
 		return json($dbdata);
+	}
+	public function getUser(Request $request){
+		$data = $request->post()['data'];
+		$dbdata = Db::table('tbuser')
+				->select();
+		$returnData = [];
+		foreach ($dbdata as $elem) {
+			if($elem['ID'] != $data['UserID']){
+				array_push($returnData,$elem);
+			}
+		}
+		return json($returnData);
+	}
+	public function sendMessage(Request $request){
+		$data = $request->post()['data'];
+		$dbdata = Db::table('tbmessage')
+				->insert(['SendUserID'=>$data['SendUserID'],
+							'ReceiveUserID'=>$data['ReceiveUserID'],
+							'Detail'=>$data['Detail'],
+							'Time'=>$data['Time']]);
+		return json(['state'=>'ok']);
 	}
 	public function getCourse(Request $request){
 		$data = $request->post()['data'];
