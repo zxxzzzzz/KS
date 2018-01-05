@@ -3,7 +3,7 @@
 *  date:2017/12/26
 *  
 *  Content-Type:application/json
-*  get not suppport 不支持get请求
+*  get not suppport 不支持get 请求
 *  param:
 *      url: url
 *      method: get/post/delete/put    
