@@ -88,13 +88,15 @@ function doAjax(url, method, data, callback){
 function getUrlParamsMap(key = ''){
 	var param = window.location.search.split('?')[1]
 	var paramsMap = {}
-	var params = param.split('=')
-	params.forEach(function(value, index){
-		if(index%2 == 0){
-			paramsMap[value] = params[index+1]
-			
-		}
+	param.split('&').forEach(function(fuckvar){
+		var params = fuckvar.split('=')
+		params.forEach(function(value, index){
+			if(index%2 == 0){
+				paramsMap[value] = params[index+1]
+			}
+		})
 	})
+	
 	if(key == ''){
 		return paramsMap
 	}
