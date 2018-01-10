@@ -1,14 +1,14 @@
 
 -- --用户数据
-INSERT INTO `TBUser` (`ID`, `Name`, `Password`, `Role`,`Online`) VALUES (NULL, 'zxx', 'zxx', 'student','no');
-INSERT INTO `TBUser` (`ID`, `Name`, `Password`, `Role`,`Online`) VALUES (NULL, 'lhl', 'lhl', 'student','no');
-INSERT INTO `TBUser` (`ID`, `Name`, `Password`, `Role`,`Online`) VALUES (NULL, 'sp', 'sp', 'student','no');
-INSERT INTO `TBUser` (`ID`, `Name`, `Password`, `Role`,`Online`) VALUES (NULL, 'glc', 'glc', 'student','no');
-INSERT INTO `TBUser` (`ID`, `Name`, `Password`, `Role`,`Online`) VALUES (NULL, 'cxh', 'cxh', 'student','no');
-INSERT INTO `TBUser` (`ID`, `Name`, `Password`, `Role`,`Online`) VALUES (NULL, 'xz', 'xz', 'student','no');
-INSERT INTO `TBUser` (`ID`, `Name`, `Password`, `Role`,`Online`) VALUES (NULL, 'mjj', 'mjj', 'student','no');
-INSERT INTO `TBUser` (`ID`, `Name`, `Password`, `Role`,`Online`) VALUES (NULL, 'lzx', 'lzx', 'student','no');
-INSERT INTO `TBUser` (`ID`, `Name`, `Password`, `Role`,`Online`) VALUES (NULL, 'pyq', 'pyq', 'teacher','no');
+INSERT INTO `TBUser` (`ID`, `Name`, `Password`, `Role`,`Online`) VALUES (1, 'zxx', 'zxx', 'student','no');
+INSERT INTO `TBUser` (`ID`, `Name`, `Password`, `Role`,`Online`) VALUES (2, 'lhl', 'lhl', 'student','no');
+INSERT INTO `TBUser` (`ID`, `Name`, `Password`, `Role`,`Online`) VALUES (3, 'sp', 'sp', 'student','no');
+INSERT INTO `TBUser` (`ID`, `Name`, `Password`, `Role`,`Online`) VALUES (4, 'glc', 'glc', 'student','no');
+INSERT INTO `TBUser` (`ID`, `Name`, `Password`, `Role`,`Online`) VALUES (5, 'cxh', 'cxh', 'student','no');
+INSERT INTO `TBUser` (`ID`, `Name`, `Password`, `Role`,`Online`) VALUES (6, 'xz', 'xz', 'student','no');
+INSERT INTO `TBUser` (`ID`, `Name`, `Password`, `Role`,`Online`) VALUES (7, 'mjj', 'mjj', 'student','no');
+INSERT INTO `TBUser` (`ID`, `Name`, `Password`, `Role`,`Online`) VALUES (8, 'lzx', 'lzx', 'student','no');
+INSERT INTO `TBUser` (`ID`, `Name`, `Password`, `Role`,`Online`) VALUES (9, 'pyq', 'pyq', 'teacher','no');
 
 
 -- --课程数据
