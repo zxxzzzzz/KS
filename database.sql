@@ -52,7 +52,7 @@ CREATE TABLE `TBCourseData`(
 `ID` INT(11) NOT NULL AUTO_INCREMENT,
 `CourseID` VARCHAR(255) NOT NULL COMMENT'所属课程名称',
 `Name` VARCHAR(255) NOT NULL COMMENT'资料名称',
-`Src` INT(11)  NOT NULL COMMENT '资料地址',
+`Src` varchar(255)  NOT NULL COMMENT '资料地址',
 PRIMARY KEY (`ID`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -61,7 +61,7 @@ CREATE TABLE `TBCourseComment`(
 `ID` INT(11) NOT NULL AUTO_INCREMENT,
 `CourseID` INT(11) NOT NULL COMMENT'所属课程名称',
 `UserID` INT(11) NOT NULL COMMENT'评论的人的id',
-`Detail` INT(11)  NOT NULL COMMENT '评论详情', -- -- 诸如 "这课很烂"
+`Detail` varchar(255)  NOT NULL COMMENT '评论详情', -- -- 诸如 "这课很烂"
 `Time` DATETIME NOT NULL COMMENT '评论时间',
 PRIMARY KEY (`ID`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
