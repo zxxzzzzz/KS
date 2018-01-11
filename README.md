@@ -6,3 +6,4 @@
 ### 2017/12/31 tbcourse->TeacherID是个varchar,也就是说可以填任何字符串
 ### 2017/12/31 界面2完成
 ### 2018/1/2 数据库数据生成脚本InsetData.sql完成
+### 2018/1/11 comment表detail改varchar  data表src改varchar
