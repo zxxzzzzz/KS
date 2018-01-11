@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>题库界面</title>
+		<link rel="icon" href="/fav.ico" type="image/png" >
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+		<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+		<script src="/tp5/public/static/js/ajax.js"></script>
+		<link href="http://cdn.amazeui.org/amazeui/2.7.2/css/amazeui.min.css" rel="stylesheet">
+		<script src="http://cdn.amazeui.org/amazeui/2.7.2/js/amazeui.min.js"></script>
+		
+    </head>
+    <body class="am-g">
+	   <br>
+           <div id="app" class="am-form">
+	        <div>题号</div>
+	        <input  v-model="number" type="text" placeholder="edit me"><br>
+		<div>科目编号</div>
+	        <input  v-model="course" type="text" placeholder="edit me"><br>
+		<div>类型(选择题/填空题)</div>
+		<input  v-model="sort" type="text" placeholder="edit me"><br>
+		<div>题目</div>
+	        <input  v-model="topic" type="text" placeholder="edit me"><br>
+		<div>答案</div>
+		<input  v-model="answer" type="text" placeholder="edit me"><br>
+	    
+		<br>
+	    	<div class="am-btn-group">
+              	  	<button v-on:click="insert" class="am-btn am-btn-secondary am-fr">添加题目</button>
+	   	</div>
+	   	<div class="am-btn-group">
+			<button v-on:click="select" class="am-btn am-btn-secondary am-fr">查看题目</button>
+	    	</div>
+	    	<div class="am-btn-group">
+			<button v-on:click="update" class="am-btn am-btn-secondary am-fr">更改题目</button>
+	    	</div>
+	    	<div class="am-btn-group">
+			<button v-on:click="del" class="am-btn am-btn-secondary am-fr">删除题目</button>
+	    	</div>
+		<div v-for="elem in output">{{elem.ID}}、题目：{{elem.Detail}}   答案:{{elem.Answer}}</div>
+		
+	    </div>
+    </body>
+    <script>
+	var app = new Vue({
+	    el: '#app',
+	    data: {
+			number:'',
+			course:'',
+			topic:'',
+			sort:'',
+			answer:'',
+			output:[],
+		   },
+	    methods: {
+			insert:function(){
+				doAjax('/tp5/public/index/topic/insert',
+					'post',
+					{"data":{"Number":this.number,"Course":this.course,"Topic":this.topic,"Sort":this.sort,"Answer":this.answer}},
+					function(data){
+						if(data['state'] == 'error'){
+							alert('题号已存在！')
+							app.number = ''
+						}
+						else if(data['state1'] == 'error'){
+							alert('未定义题号！')
+						}
+						else if(data['state2'] == 'error'){
+							alert('未定义科目编号！')
+						}
+						else if(data['state3'] == 'error'){
+							alert('未定义题目类型！')
+						}
+						else if(data['state4'] == 'error'){
+							alert('未定义题目!')
+						}
+						else if(data['state5'] == 'error'){
+							alert('未定义答案！')
+						}
+						else{
+							alert('添加成功！')
+						}
+					}
+				)
+			},
+			select:function(){
+				doAjax('/tp5/public/index/topic/select',
+					'post',
+					{'data':{'CourseID':getUrlParamsMap('courseid')}},
+					function(data){
+						app.output = data
+						console.log(data)
+					}
+				)
+			},
+			update:function(){
+			    doAjax('/tp5/public/index/topic/update',
+				'post',
+				{"data":{"Number":this.number,"Course":this.course,"Topic":this.topic,"Sort":this.sort,"Answer":this.answer}},
+				function(data){
+					if(data['state'] == 'error'){
+						alert('题号不存在！')
+					}
+					else if(data['state1'] == 'error'){
+						alert('未定义题号！')
+					}
+					else if(data['state2'] == 'error'){
+						alert('未定义科目编号！')
+					}
+					else if(data['state3'] == 'error'){
+						alert('未定义题目类型！')
+					}
+					else if(data['state4'] == 'error'){
+						alert('未定义题目!')
+					}
+					else if(data['state5'] == 'error'){
+						alert('未定义答案！')
+					}
+					else{
+						alert('更新成功！');
+					}
+				}
+			    )
+			},
+			del:function(){
+			    doAjax('/tp5/public/index/topic/del',
+				'post',
+				{"data":{"Number":this.number}},
+				function(data){
+					if(this.number == ''){
+						alert('未定义题号！')
+					}
+					else if(data['state'] == 'error'){
+						alert('题号不存在！')
+					}
+					else{
+						alert('删除成功！')
+					}
+				}	
+			    )
+			}
+		},
+							
+	})
+							
+    </script>
+</html>
