@@ -9,21 +9,30 @@
 		<script src="/tp5/public/static/js/ajax.js"></script>
 		<link href="http://cdn.amazeui.org/amazeui/2.7.2/css/amazeui.min.css" rel="stylesheet">
 		<script src="http://cdn.amazeui.org/amazeui/2.7.2/js/amazeui.min.js"></script>
-		
+	<style>
+		body
+		{
+			background-color:#d0e4fe;
+		}
+		p
+		{
+			font-size:20px;
+		}
+	</style>		
     </head>
     <body class="am-g">
 	   <br>
            <div id="app" class="am-form">
-	        <div>题号</div>
-	        <input  v-model="number" type="text" placeholder="edit me"><br>
-		<div>科目编号</div>
-	        <input  v-model="course" type="text" placeholder="edit me"><br>
-		<div>类型(选择题/填空题)</div>
-		<input  v-model="sort" type="text" placeholder="edit me"><br>
-		<div>题目</div>
-	        <input  v-model="topic" type="text" placeholder="edit me"><br>
-		<div>答案</div>
-		<input  v-model="answer" type="text" placeholder="edit me"><br>
+	        <p>题号</p>
+	        <input  v-model="number" type="text" placeholder="edit me">
+		<p>科目编号</p>
+	        <input  v-model="course" type="text" placeholder="edit me">
+		<p>类型(选择题/填空题)</p>
+		<input  v-model="sort" type="text" placeholder="edit me">
+		<p>题目</p>
+	        <input  v-model="topic" type="text" placeholder="edit me">
+		<p>答案</p>
+		<input  v-model="answer" type="text" placeholder="edit me">
 	    
 		<br>
 	    	<div class="am-btn-group">
@@ -38,11 +47,30 @@
 	    	<div class="am-btn-group">
 			<button v-on:click="del" class="am-btn am-btn-secondary am-fr">删除题目</button>
 	    	</div>
-		<div v-for="elem in output">{{elem.ID}}、题目：{{elem.Detail}}   答案:{{elem.Answer}}</div>
-		
+		<div >		
+	    	<table class="am-table am-table-bordered am-table-radius am-table-striped">
+    			<thead>
+        			<tr>
+	    			<th>题号</th>
+          			<th>题目</th>
+           			<th>答案</th>
+        			</tr>
+    			</thead>
+			
+    			<tbody>
+        			<tr v-for="elem in output">
+            			<td>{{elem.ID}}</td>
+            			<td>{{elem.Detail}}</td>
+            			<td>{{elem.Answer}}</td>
+        			</tr>	
+    			</tbody>
+			
+	    	</table>
+		</div>
 	    </div>
     </body>
     <script>
+	
 	var app = new Vue({
 	    el: '#app',
 	    data: {
@@ -143,6 +171,7 @@
 		},
 							
 	})
+
 							
     </script>
 </html>
