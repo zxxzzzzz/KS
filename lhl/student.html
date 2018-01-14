@@ -9,25 +9,46 @@
 		<script src="/tp5/public/static/js/ajax.js"></script>
 		<link href="http://cdn.amazeui.org/amazeui/2.7.2/css/amazeui.min.css" rel="stylesheet">
 		<script src="http://cdn.amazeui.org/amazeui/2.7.2/js/amazeui.min.js"></script>
+	<style>
+		body
+		{
+			background-image:url('http://img5.imgtn.bdimg.com/it/u=88189355,356946474&fm=200&gp=0.jpg');
+			background-size:cover;
+		}
+		h{
+			font-size:30px;
+		}
+	</style>
 		
     </head>
     <body class="am-g">
-		<br>
-		<br>
-		<br>
-        <div class="am-u-sm-4">&nbsp</div>
-        <div class="am-u-sm-4">
-            <div class="am-panel am-panel-default" >
-                <div class="am-panel-bd" id="app"><li @click="update()" v-for="elem in messages">来自用户：{{elem.Name}}；内容:{{elem.Detail}}</li></div>
+	<div id="container" style="width:100%">
+	<div id="header" style="background-color:#d0e4fe;">
+	<h1 style="margin-bottom:0;text-align:center;font-size:70px;">欢迎您使用！</h1></div>		
+                <h><div class="am-panel-bd" id="app4"><div @click="update()"v-for="elem in information" style="">
+			用户ID：{{elem.userID}}<br>
+			用户名：{{elem.userName}}<br>
+			用户身份：{{elem.userRole}}</div>
+		</div></h>
+	<div class="am-u-sm-4">
+	    <div class="am-panel am-panel-default am-panel am-panel-primary" >
+		<div class="am-panel-hd">消息通知</div>
+                <div class="am-panel-bd" id="app"><li @click="update()" v-for="elem in messages">来自用户：{{elem.Name}}<br>
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消息内容：{{elem.Detail}}<br>
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;发送时间：{{elem.Time}}</li></div>
             </div>
-            <div class="am-panel am-panel-default" >
-                <div class="am-panel-bd" id="app2"><div @click="update()" v-for="elem in courses"><a :href="elem.url">课程：{{elem.Name}};教师：{{elem.Teacher}}</a><br></div></div>
+        </div>  
+	
+	<div class="am-u-sm-4">
+	    <div class="am-panel am-panel-default am-panel am-panel-primary" >
+		<div class="am-panel-hd">选课详情</div>
+                <div class="am-panel-bd" id="app2"><div @click="update()" v-for="elem in courses"><a :href="elem.url">所选课程：{{elem.Name}}<br>
+														      任课教师：{{elem.Teacher}}<br></a><br></div></div>
             </div>
-            <div class="am-panel am-panel-default" >
-                <div class="am-panel-bd"><a href="/tp5/public/index/search/search">点击去搜索</a></div>
-            </div>
-            <div class="am-panel am-panel-default">
-                
+	</div>
+
+	<div class="am-u-sm-4">  
+            <div class="am-panel am-panel-default">  
                 <div class="am-dropdown" data-am-dropdown id="app3">
                     <button class="am-btn am-btn-primary am-dropdown-toggle" @click="getUser()" data-am-dropdown-toggle>{{title}}<span class="am-icon-caret-down"></span></button>
                     <ul class="am-dropdown-content">
@@ -35,20 +56,24 @@
                     </ul>
                     <input  v-model="message" type="text" placeholder="message">
                     <button type="button" @click="send()" class="am-btn am-btn-default am-radius">发送</button>
-                </div>
-
-                
-
+                </div>             
             </div>
-        </div>
-		
-       
+	</div>
+	
+	<div class="am-u-sm-4">
+	    <div class="am-panel am-panel-default" >
+                <div class="am-panel-bd"><a href="/tp5/public/index/search/search">课程搜索入口（点我）</a></div>
+            </div>
+	</div>
+	
     </body>
     <script>
+	
+	
         var app = new Vue({
             el: '#app',
             data: {
-                messages:[{'Detail':'点击显示message'}],
+                messages:[{'Detail':'（点击显示留言）'}],
             },  
 			methods:{
 				update:function(){
@@ -64,7 +89,7 @@
         var app2 = new Vue({
             el: '#app2',
             data: {
-                courses:[{'Name':'点击','url':'#'}],
+                courses:[{'Name':'（点击显示信息）','url':'#'}],
             },  
 			methods:{
 				update:function(){
@@ -81,8 +106,6 @@
                 }
 			},
         })
-
-
         var app3 = new Vue({
             el: '#app3',
             data: {
@@ -115,6 +138,28 @@
                 }
 			},
         })
-
+	var app4 = new Vue({
+            el: '#app4',
+            data: {
+                information:[{'userID':''}],
+            },  
+			methods:{
+				update:function(){
+                    doAjax('/tp5/public/index/student/getInformation','post',
+                        {'data':{'UserID':getUrlParamsMap('userid')}},
+                        function(data){
+                            app4.information = data
+			    console.log(data)
+			
+                        }
+                    )
+                }
+			},
+        })
+	
+	window.onload = app4.update();
+	window.onload = app.update();
+	window.onload = app2.update();
+	
     </script>
 </html>
