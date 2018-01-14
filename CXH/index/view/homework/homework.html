@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+    <head>
+		<meta charset="utf-8"> 
+        <title>教师态作业界面</title>
+		<link rel="icon" href="/fav.ico" type="image/png" >
+	    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+		<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+		<script src="/tp5/public/static/js/ajax.js"></script>
+		<link href="http://cdn.amazeui.org/amazeui/2.7.2/css/amazeui.min.css" rel="stylesheet">
+		<script src="http://cdn.amazeui.org/amazeui/2.7.2/js/amazeui.min.js"></script>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+		<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+		<script src="https://cdn.bootcss.com/popper.js/1.12.5/umd/popper.min.js"></script>
+		<script src="https://cdn.bootcss.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+		<style>
+			#container {
+				color:rgb(8, 8, 8);
+				filter:Alpha(Opacity=10,Style=0);
+				opacity:0.5;
+				position:absolute;
+				z-index:30;
+			}	
+		</style>
+	</head>
+	
+	<body style="background:url(/tp5/public/static/img/teacherBack1.jpg)">
+		
+	<button class="am-btn am-btn-primary" data-am-offcanvas="{target: '#doc-oc-demo2', effect: 'push'}">点击更多</button>
+	<div id="doc-oc-demo2" class="am-offcanvas">
+	<div class="am-offcanvas-bar">
+		<div class="am-offcanvas-content">
+			<div class="container" id="app2">
+				<br><br>
+				<h1>显示作业
+				<button type="button"  @click="search1()" class="am-btn am-btn-secondary am-fr am-round">显示</button>
+				</h1>
+				<br><br>
+				<h1>返回上一级
+				<button type="button"  @click="returnUp()" class="am-btn am-btn-secondary am-fr am-round">返回</button>
+				</h1>
+				<br><br>
+				
+
+			</div>
+
+			<div id="app3" class="am-form">
+					<h1>教师检索</h1>
+					<div>输入课程欲检索用户ID(必需输入)：</div>
+					<input  v-model="userid" type="text" placeholder="edit me">
+					<br>
+					<br>
+					<div>第一种检索方式----输入课程ID：</div>
+					<input  v-model="courseid" type="text" placeholder="edit me">
+					<br>
+					<br>
+					<button v-on:click="search1" class="am-btn am-btn-secondary am-fr am-round">search</button>
+					<br>
+					<br>
+					<div>第二种检索方式----输入课程名称：</div>
+					<input  v-model="coursename" type="text" placeholder="edit me">
+					<br><br>
+					<button v-on:click="search2" class="am-btn am-btn-secondary am-fr am-round">search</button>
+			</div>
+			<br>
+			<br><br>
+			<br>
+			<div class="am-panel-bd"><a href="/tp5/public/index/login/login"><h2>返回登录界面</h2></a></div>
+		</div>
+	</div>
+	</div>
+
+	
+
+	<div class="am-u-sm-2"> <img class="am-circle" src="/tp5/public/static/img/mooc.jpg" width="140" height="140"/></div>
+	<br>
+	<br>
+	<br><br>
+	<br>
+	<br>
+	
+	<div class="am-g" id="container" >
+		<div class="am-u-sm-2">&nbsp;</div>
+		<div class="am-u-sm-8 am-panel am-panel-default">
+			<div class="am-panel-hd">教师选择</div>
+			<br><br>
+			<div  id="app1">
+			
+			<h1>*添加作业
+			<button type="button"  @click="search2()" class="am-btn am-btn-secondary am-fr am-round">添加</button>
+			</h1>
+			<br><br>
+			<h1>*删除作业
+			<button type="button"  @click="search3()" class="am-btn am-btn-secondary am-fr am-round">删除</button>
+			</h1>
+			<br><br>
+			<h1>*修改作业
+			<button type="button"  @click="search4()" class="am-btn am-btn-secondary am-fr am-round">修改</button>
+			</h1>
+			<br><br>
+			<h1>*批改作业
+			<button type="button"  @click="search5()" class="am-btn am-btn-secondary am-fr am-round">批改</button>
+			</h1>
+			</div>
+			<br><br>
+		</div>
+		<div class="am-u-sm-2">&nbsp;</div>
+	</div>
+	
+	</body>
+    <script>
+var app3 = new Vue({
+	el: '#app3',
+	data: {
+		courses:[],
+		message:'',
+		courseid:'',
+		userid:'',
+		coursename:''
+	},  
+	methods:{
+		search1:function(){
+			doAjax('/tp5/public/index/homework/searchCourseID',
+				'post',
+				{"data":{"userid":this.userid,"courseid":this.courseid}},
+				function(data){
+					if(data['state'] == 'error'){
+						alert(data['message'])
+							app3.userid = ''
+							app3.courseid = ''
+					}
+					else if(data['state'] == 'all right'){
+						alert(data['message'])
+						self.location = data['jump']; 
+					}
+					else if(data['state'] == 'right courseid'){
+						alert(data['message'])
+						self.location = data['jump']; 
+					}
+					else alert(data['message'])
+				}
+			)
+		},
+		search2:function(){
+			doAjax('/tp5/public/index/homework/searchCourseName',
+				'post',
+				{"data":{"userid":this.userid,"name":this.coursename}},
+				function(data){
+					alert(data['message'])
+					if(data['state'] == 'error'){
+							app3.userid = ''
+							app3.coursename = ''
+						}
+					else {
+						self.location = data['jump']; 
+					}
+				}
+			)
+		}
+	},
+})
+
+	var app2 = new Vue({
+	el: '#app2',
+		data: {
+			courses:[],
+			title:'显示',
+			id:'',
+			message:'',
+			userid:'',
+			courseid:''
+		},  
+		methods:{
+			getCourse:function(CourseID,Name,ID){
+				app2.name = name
+				app2.courseid = courseid
+				app2.id = id
+				var id = getUrlParamsMap('courseid')
+				doAjax('/tp5/public/index/homework/getCourse',
+					'post',
+					{'data':{'courseid':id}},
+					function(data){
+						app2.courses = data
+					}
+				)
+			},
+			search1:function(){
+				doAjax('/tp5/public/index/homework/showURL',
+					'post',
+					{"data":{"userid":getUrlParamsMap('userid'),"courseid":getUrlParamsMap('courseid')}},
+					function(data){
+						self.location = data['jump']; 
+					}
+				)
+			},
+			returnUp:function(){
+			doAjax('/tp5/public/index/homework/returnUp',
+				'post',
+				{"data":{"userid":getUrlParamsMap('userid'),"courseid":getUrlParamsMap('courseid')}},
+				function(data){
+					self.location = data['jump']; 
+				}
+			)
+			}
+		},
+	})
+
+	//显示作业
+	var app1 = new Vue({
+	el: '#app1',
+		data: {
+			courses:[],
+			title:'显示',
+			id:'',
+			message:'',
+			userid:'',
+			courseid:''
+		},  
+		methods:{
+			getCourse:function(CourseID,Name,ID){
+				app1.name = name
+				app1.courseid = courseid
+				app1.id = id
+				var id = getUrlParamsMap('courseid')
+				doAjax('/tp5/public/index/homework/getCourse',
+					'post',
+					{'data':{'courseid':id}},
+					function(data){
+						app1.courses = data
+					}
+				)
+			},
+			search1:function(){
+				doAjax('/tp5/public/index/homework/showURL',
+					'post',
+					{"data":{"userid":getUrlParamsMap('userid'),"courseid":getUrlParamsMap('courseid')}},
+					function(data){
+						self.location = data['jump']; 
+					}
+				)
+			},
+			search2:function(){
+				doAjax('/tp5/public/index/homework/addURL',
+					'post',
+					{"data":{"userid":getUrlParamsMap('userid'),"courseid":getUrlParamsMap('courseid')}},
+					function(data){
+						self.location = data['jump']; 
+					}
+				)
+			},
+			search3:function(){
+				doAjax('/tp5/public/index/homework/deleteURL',
+					'post',
+					{"data":{"userid":getUrlParamsMap('userid'),"courseid":getUrlParamsMap('courseid')}},
+					function(data){
+						self.location = data['jump']; 
+					}
+				)
+			},
+			search4:function(){
+				doAjax('/tp5/public/index/homework/alterURL',
+					'post',
+					{"data":{"userid":getUrlParamsMap('userid'),"courseid":getUrlParamsMap('courseid')}},
+					function(data){
+						self.location = data['jump']; 
+					}
+				)
+			},
+			search5:function(){
+				doAjax('/tp5/public/index/homework/correctURL',
+					'post',
+					{"data":{"userid":getUrlParamsMap('userid'),"courseid":getUrlParamsMap('courseid')}},
+					function(data){
+						self.location = data['jump']; 
+					}
+				)
+			}
+		},
+	})
+    </script>
+</html>

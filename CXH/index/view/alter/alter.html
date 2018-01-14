@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+    <head>
+		<meta charset="utf-8"> 
+        <title>修改界面</title>
+		<link rel="icon" href="/fav.ico" type="image/png" >
+	    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+		<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+		<script src="/tp5/public/static/js/ajax.js"></script>
+		<link href="http://cdn.amazeui.org/amazeui/2.7.2/css/amazeui.min.css" rel="stylesheet">
+		<script src="http://cdn.amazeui.org/amazeui/2.7.2/js/amazeui.min.js"></script>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+		<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+		<script src="https://cdn.bootcss.com/popper.js/1.12.5/umd/popper.min.js"></script>
+		<script src="https://cdn.bootcss.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+		<style>
+				#container {
+					color:rgb(8, 8, 8);
+					filter:Alpha(Opacity=10,Style=0);
+					opacity:0.7;
+					z-index:30;
+				}	
+				.layui-side{
+					position:fixed;
+					width:300px;
+					top:0;
+					bottom:0;
+					background-color: rgb(67, 78, 110);
+				}
+			</style>
+    </head>
+    <body style="background:url(/tp5/public/static/img/teacherBack1.jpg)" onLoad="document.getElementById('search').focus()">
+		<br><br>
+
+		<div class="layui-side" style="background:url(/tp5/public/static/img/2.png)">
+	
+		</div>
+
+		<div class="am-u-sm-3">&nbsp;</div>
+		<div class="am-u-sm-7 am-panel am-panel-default" id="container">
+		<div class="am-panel-hd">修改作业</div>
+
+		<div class="am-dropdown" data-am-dropdown id="app1">   
+		<div style="width:1080px;height:400px; overflow-y:scroll; border:1px solid;">
+		<ul>
+		<li v-for="elem in courses" style="color:rgb(13, 13, 14);font-size:20px;" >作业ID:{{elem.ID}}  作业名:{{elem.Name}}  作业内容:{{elem.Detail}} </li>
+		</ul>
+		</div>
+		<h2>输入作业名:</h2>
+		<input  v-model="name" type="text" placeholder="search name" id='search'>
+		<br>
+		<button class="am-btn am-btn-default am-dropdown-toggle" @click="getCourse()" data-am-dropdown-toggle>{{aaa}} {{id}}<span class="am-icon-caret-down"></span></button>
+		<ul class="am-dropdown-content">
+		<li class="am-dropdown-header">内容</li>
+		<li v-for="elem in courses"><button type="button" @click="setR(elem.CourseID,elem.Name,elem.ID,'选择了作业')"  class="am-btn am-btn-default">作业ID:{{elem.ID}}</button></li>
+		</ul>
+		</div>
+		
+		<div id="app3" class="am-form">
+		<textarea v-model="message" rows="10" cols="96" placeholder="detail"></textarea>
+		<button type="button" @click="alter()" class="am-btn am-btn-secondary  am-round">更改作业详情</button>
+		<button v-on:click="returnUp" class="am-btn am-btn-primary  am-fr am-round">返回</button>
+		</div>
+		</div>
+		<br><br>
+    </body>
+    <script>
+//更改作业
+var app1 = new Vue({
+	el: '#app1',
+	data: {
+		courses:[],
+		courseid:'',
+		message:'',
+		name:'',
+		id:'搜索作业',
+		aaa:''
+	},  
+	methods:{
+		getCourse:function(){
+			doAjax('/tp5/public/index/alter/getCourse',
+				'post',
+				{'data':{'courseid':getUrlParamsMap('courseid'),"Name":app1.name}},
+				function(data){
+					app1.courses = data
+				}
+			)
+		},
+		setR:function(courseid,name,id,aaa){
+			app1.name = name
+			app1.courseid = courseid
+			app1.id = id
+			app1.aaa = aaa
+		}
+	},
+})
+var app3 = new Vue({
+		el: '#app3',
+		data: {
+			courses:[],
+			courseid:'',
+			message:''
+		},  
+		methods:{
+			alter:function(){
+				//请求地址，请求方式，请求数据，回调函数
+				doAjax('/tp5/public/index/alter/alterHomework',
+					'post',
+					{'data':{'courseid':getUrlParamsMap('courseid'),"ID":app1.id,"Name":app1.name,"Detail":app3.message}},
+					function(data){
+						alert(data['message'])
+					}
+				)
+			},
+			returnUp:function(){
+			doAjax('/tp5/public/index/alter/returnUp',
+				'post',
+				{"data":{"userid":getUrlParamsMap('userid'),"courseid":getUrlParamsMap('courseid')}},
+				function(data){
+					self.location = data['jump']; 
+				}
+			)
+		}
+		},
+	})	
+    </script>
+</html>

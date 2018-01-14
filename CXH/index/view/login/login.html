@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>登录界面</title>
+		<link rel="icon" href="/fav.ico" type="image/png" >
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+		<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+		<script src="/tp5/public/static/js/ajax.js"></script>
+		<link href="http://cdn.amazeui.org/amazeui/2.7.2/css/amazeui.min.css" rel="stylesheet">
+		<script src="http://cdn.amazeui.org/amazeui/2.7.2/js/amazeui.min.js"></script>
+		
+    </head>
+	<body class="am-g" style="background:url(/tp5/public/static/img/loginBack.jpg)">
+		<div class="am-u-sm-2"> <img class="am-circle" src="/tp5/public/static/img/mooc.jpg" width="140" height="140"/></div>
+		<br>
+		<br>
+		<br>
+		<div class="am-u-sm-2">&nbsp</div>
+		<div class="am-u-sm-4 am-panel am-panel-default">
+			<div class="am-panel-hd">登录</div>
+			<br>
+			<br>
+			<div id="app" class="am-form">
+				<br>
+				<div>用户名</div>
+				<input  v-model="name" type="text" placeholder="edit me">
+				<br>
+				<div>密码</div>
+				<input v-model="password" type="text" type="text" placeholder="edit me">
+				<br>
+				<br>
+				<button v-on:click="login" class="am-btn am-btn-secondary am-fr">登录</button>
+			</div>
+			<br>
+			<br>
+			<br>
+			<br>
+
+		</div>
+        
+     
+    </body>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+			password:'',
+			name:'',
+            },  
+			methods:{
+				login:function(){
+				    //doAjax('/tp5/public/index/login/test', 'get', {"data":[{"a":12,"cv":"234"},{"gy":"ty"}],"ji":345}, function(data){console.log(data)})
+					doAjax('/tp5/public/index/login/dologin',
+						'post',
+						{"data":{"Name":this.name,"Password":this.password}},
+						function(data){
+							if(data['state'] == 'error'){
+								alert(data['message'])
+								if(data['message'] == 'wrong password'){
+									app.password = ''
+								}
+								else{
+									app.name = ''
+									app.password = ''
+								}
+							}
+							else{
+								self.location = data['jump']; 
+							}
+						}
+					)
+				}
+			},
+        })
+    </script>
+</html>

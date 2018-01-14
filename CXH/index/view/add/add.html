@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+    <head>
+		<meta charset="utf-8"> 
+		<meta http-equiv="Content-Type" content="text/html; charset=gbk">
+        <title>添加界面</title>
+		<link rel="icon" href="/fav.ico" type="image/png" >
+	    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+		<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+		<script src="/tp5/public/static/js/ajax.js"></script>
+		<link href="http://cdn.amazeui.org/amazeui/2.7.2/css/amazeui.min.css" rel="stylesheet">
+		<script src="http://cdn.amazeui.org/amazeui/2.7.2/js/amazeui.min.js"></script>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+		<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+		<script src="https://cdn.bootcss.com/popper.js/1.12.5/umd/popper.min.js"></script>
+		<script src="https://cdn.bootcss.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+
+		<link rel="stylesheet" type="text/css" href="css/wysiwyg-editor.css" />
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script type="text/javascript" src="js/wysiwyg.js"></script>
+		<script type="text/javascript" src="js/wysiwyg-editor.js"></script>
+
+		<script type="text/javascript">
+			function focusNextInput(thisInput){
+				var inputs = document.getElementsByTagName("input");
+				for(var i = 0;i<inputs.length;i++){
+				  // 如果是最后一个，则焦点回到第一个
+				  if(i==(inputs.length-1)){
+					inputs[0].focus();
+					break;
+				  }else if(thisInput == inputs[i]){
+					inputs[i+1].focus();
+					break;
+				  }
+				}
+			}  
+		  </script>
+
+
+
+		<style >
+				#container {
+					color:rgb(8, 8, 8);
+					filter:Alpha(Opacity=10,Style=0);
+					opacity:0.7;
+					z-index:30;
+				}	
+				.layui-side{
+					position:fixed;
+					width:300px;
+					top:0;
+					bottom:0;
+					background-color: rgb(67, 78, 110);
+				}
+				
+		</style>
+
+
+
+	</head>
+	
+
+
+	<body style="background:url(/tp5/public/static/img/teacherBack1.jpg)" onLoad="document.getElementById('search').focus()">
+		
+	<br><br>
+
+	<div class="layui-side" style="background:url(/tp5/public/static/img/2.png)">
+	
+	</div>
+	<br>
+	<br>
+	<br><br>
+	<div class="am-u-sm-3">&nbsp;</div>
+	<div class="am-u-sm-7 am-panel am-panel-default" id="container">
+	<div class="am-panel-hd">添加作业</div>
+	<br><br>
+	<div class="am-dropdown" data-am-dropdown id="app1">
+	<h1>作业名：</h1>
+	<input  v-model="name" type="text" placeholder="name" id='search'>
+	<h1>作业详情：</h1>
+
+	<textarea v-model="detail" rows="20" cols="175" placeholder="detail"></textarea>
+
+	<br><br>
+	<button type="button" @click="add()" class="am-btn am-btn-secondary am-fr am-round">添加</button>
+	</div>
+	<br><br>
+	<div id="app2" class="am-form">
+	<button v-on:click="returnUp" class="am-btn am-btn-primary  am-fr am-round">返回</button>
+	</div>
+	</div>
+	</div>
+    </body>
+    <script>
+
+
+	//添加作业
+	var app1 = new Vue({
+		el: '#app1',
+		data: {
+			courses:[],
+			name:'',
+			courseid:'选择课程',
+			message:'',
+			detail:''
+		},  
+		methods:{
+			add:function(){
+				//请求地址，请求方式，请求数据，回调函数
+				doAjax('/tp5/public/index/add/addHomework',
+					'post',
+					{'data':{'courseid':getUrlParamsMap('courseid'),"Name":app1.name,"Detail":app1.detail}},
+					function(data){
+						alert(data['message'])
+					}
+				)
+			}
+		},
+	})
+	var app2 = new Vue({
+	el: '#app2',
+	data: {
+		courseid:'',
+		userid:''
+	},
+	methods:{
+		returnUp:function(){
+			doAjax('/tp5/public/index/add/returnUp',
+				'post',
+				{"data":{"userid":getUrlParamsMap('userid'),"courseid":getUrlParamsMap('courseid')}},
+				function(data){
+					self.location = data['jump']; 
+				}
+			)
+		}
+	},
+})
+
+    </script>
+</html>
