@@ -7,6 +7,36 @@ class Teacher extends Controller{
     public function teacher(){
         return $this->fetch('teacher/teacher');
     }
+    public function getMessages(Request $request){
+		$data = $request->post()['data'];
+		$dbdata = Db::table('tbmessage')
+                ->where([
+		    'ReceiveUserID' => ['=',$data['UserID']],
+		])->select();
+		for ($i=0; $i < count($dbdata); $i++) {
+			$elem = $dbdata[$i];
+			$fuckvar = Db::table('tbuser')
+			->where([
+				'ID' => ['=',$elem['SendUserID']],
+			])->select();
+			$dbdata[$i]['Name'] = $fuckvar[0]['Name'];
+		}
+		return json($dbdata);
+	}
+    public function getInformation(Request $request){
+		$data = $request->post()['data'];
+		$get = [];
+		$getInformation = [];
+		$dbdata = Db::table('tbuser')
+                ->where([
+		    'ID' => ['=',$data['UserID']],
+		])->select();
+		$get['userID'] = $dbdata[0]['ID'];
+		$get['userName'] = $dbdata[0]['Name'];
+		$get['userRole'] = $dbdata[0]['Role'];
+        array_push($getInformation,$get);
+        return json($getInformation);
+	}
 	public function getMessage(Request $request){
 		$data = $request->post()['data'];
 		$dbdata = Db::table('tbmessage')
@@ -57,10 +87,13 @@ class Teacher extends Controller{
 		 ->where([
 		 	'TeacherID' => ['=',$getname[0]['Name']],
 		 ])->select();
+		 $get = [];
 		 $getCourse = [];
 		 for ($i=0; $i < count($dbdata); $i++) {
-		 $getCourse[$i]['Name'] = $dbdata[$i]['Name'];
+		 $getCourse['Name'] = $dbdata[$i]['Name'];
+		 $getCourse['CourseID'] = $dbdata[$i]['ID'];
+		 array_push($get,$getCourse);
 		}
-		return  json($getCourse);
+		return  json($get);
 	}
 }
