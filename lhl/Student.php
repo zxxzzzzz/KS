@@ -7,13 +7,27 @@ class Student extends Controller{
     public function student(){
         return $this->fetch('student/student');
     }
+    public function getInformation(Request $request){
+		$data = $request->post()['data'];
+		$get = [];
+		$getInformation = [];
+		$dbdata = Db::table('tbuser')
+                ->where([
+		    'ID' => ['=',$data['UserID']],
+		])->select();
+		$get['userID'] = $dbdata[0]['ID'];
+		$get['userName'] = $dbdata[0]['Name'];
+		$get['userRole'] = $dbdata[0]['Role'];
+        array_push($getInformation,$get);
+        return json($getInformation);
+	}
 	public function getMessage(Request $request){
 		$data = $request->post()['data'];
 		$dbdata = Db::table('tbmessage')
                 ->where([
 		    'ReceiveUserID' => ['=',$data['UserID']],
 		])->select();
-		for ($i=0; $i < count($dbdata); $i++) { 
+		for ($i=0; $i < count($dbdata); $i++) {
 			$elem = $dbdata[$i];
 			$fuckvar = Db::table('tbuser')
 			->where([
